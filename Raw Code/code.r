@@ -22,3 +22,7 @@ real_damage <- function(number, multiplier){
 df$prop_damage <- mapply(real_damage, df$PROPDMG, df$PROPDMGEXP)
 df$crop_damage <- mapply(real_damage,df$CROPDMG,df$CROPDMGEXP)
 df$econ_damage <- df$prop_damage + df$crop_damage
+
+df %>% group_by(EVTYPE) %>% 
+        summarize(Total.Damage = sum(econ_damage)) %>% 
+        arrange(desc(Total.Damage))
